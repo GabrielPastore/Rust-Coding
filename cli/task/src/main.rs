@@ -51,6 +51,7 @@ fn main() {
             nome_da_tarefa: args.taskname,
             terminou: false,
         };
+        println!("A tarefa foi adicionada.");
         tasklist.push(task);
     
     // Se os dois parâmetros forem list all ele vai rodar um for loop que dê print em cada instância da Structure
