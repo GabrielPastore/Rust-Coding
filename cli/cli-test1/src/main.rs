@@ -58,8 +58,12 @@ fn main() {
         if args.taskname == "all"{
             for tarefa in &tasklist {
                 println!("{:#?}", tarefa);
+            } 
+        } else {
+                
+                // Adicionando um indicador para ajudar o usuário a acertar o comando list all
+                println!("\nComando não entendido, você quis dizer 'task -- list all'?\n");
             }
-        }
     
     // Se o primeiro parâmetro (comando) for done, ele vai pegar o segundo parãmetro (nome da tarefa) e
     // verificar toda as instâncias de Structure até achar alguma que tenha o mesmo nome, caso ache,
@@ -74,7 +78,6 @@ fn main() {
     // a primeira tarefa com esse nome e remover ela da lista (vetor de Structures "Tarefa"
     } else if args.command == "del"{
 
-        //let taskname = std::env::args().nth(2).expect("Nome não passado");
         for (index, tarefa) in tasklist.iter().enumerate() {
             if tarefa.nome_da_tarefa == args.taskname {
                 tasklist.remove(index);
@@ -82,7 +85,23 @@ fn main() {
                 break;
             }
         }
-    }
+    } else if args.command == "help" {
+       
+        // Adicionando um comando de help para poder indicar como funciona a CLI 
+        if args.taskname == "all"{
+            println!("\ntask -- add (nome da tarefa) -> adiciona uma tarefa à lista");
+            println!("task -- done (nome da tarefa) -> define uma tarefa da lista como concluída");
+            println!("task -- del (nome da tarefa) -> deleta uma tarefa da lista");
+            println!("task -- list all -> lista todas as tarefas salvas, terminadas ou não\n");
+        } else {
+
+            println!("\nComando não entendido, você quis dizer 'task -- help all'?\n");
+        }
+    } else {
+        //Adicionando uma mensagem de erro
+        println!("\nParâmetro incorreto! Tente usar 'tasks -- help all'\n");
+        }
+
     
     
     // Aqui ele vai transformar o vetor em um .JSON chamado "tarefas.JSON" e salvar na pasta src.
