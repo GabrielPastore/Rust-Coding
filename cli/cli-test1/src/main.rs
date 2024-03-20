@@ -1,25 +1,18 @@
 use serde::{Serialize, Deserialize};
 use std::fs;
+use clap::Parser; 
+
+#[derive(Parser)]
+struct  Cli {
+    command: String,
+    taskname: String,
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Tarefa {
     nome_da_tarefa: String,
     terminou: bool,
 }
-
-//Criando a função de adicionar uma tarefa
-fn addtask() -> Tarefa {
-    // O segundo parâmetro enviado no terminal fica salvo como o nome da tarefa
-    let taskname = std::env::args().nth(2).expect("Nome não passado");
-    // Uma instância da estrutura tarefa é criada, com os valores de nome e se foi concluída
-    let task = Tarefa {
-        nome_da_tarefa: taskname,
-        terminou: false,
-    };
-    // Essa instância é retornada pra ser adicionada no vetor que guarda as diferentes instâncias
-    // da estrutura
-    return task;
-    }
 
 // Criando um método à Structure "Tarefa", para marcar as tarefas como concluídas
 impl Tarefa {
@@ -36,46 +29,49 @@ impl Tarefa {
 // Na função main, é onde definimos o vetor da Structure "Tarefas". O programa vai tentar fazer o
 // vetor a partir de "tarefas.json". Caso esse arquivo não exista, uma vetor novo é criado do 0
 fn main() {
-
+    
     let mut tasklist : Vec<Tarefa> = match fs:: read_to_string("tarefas.json") {
         Ok(conteudo_json) => serde_json::from_str(&conteudo_json).unwrap_or_default(),
         Err(_) => Vec::new(),
     };
     
-    // Aqui é pego o primeiro parâmetro enviado, que nesse caso vai ser o comando a ser executado
-    // (add, list, done, update, delete)
-    let command = &std::env::args().nth(1).expect("Comando não passado");
-    
+    let args = Cli::parse();
+
     // Se for add ele chama a função de adicionar uma instância da Structure
-    if command == "add"{    
-        tasklist.push(addtask());
+    if args.command == "add"{
+        let task = Tarefa {
+            nome_da_tarefa: args.taskname,
+            terminou: false,
+        };
+        tasklist.push(task);
     
     // Se for list ele vai rodar um for loop que dê print em cada instância da Structure
-    } else if command == "list"{
-
-        for tarefa in &tasklist {
-            println!("{:#?}", tarefa);
+    } else if args.command == "list"{
+        if args.taskname == "all"{
+            for tarefa in &tasklist {
+                println!("{:#?}", tarefa);
+            }
         }
     
     // Se for done, ele vai pegar o segundo parãmetro (nome da tarefa) e verificar toda as
     // instâncias de Structure até achar alguma que tenha o mesmo nome, caso ache, ele usa o método
     // done criado em cima
-    } else if command == "done"{
+    } else if args.command == "done"{
 
-        let taskname = std::env::args().nth(2).expect("Nome não passado");
+        //let taskname = std::env::args().nth(2).expect("Nome não passado");
         for tarefa in &mut tasklist {
-            tarefa.done(&taskname);
+            tarefa.done(&args.taskname);
         }
 
     // Se for del, ele vai pegar o segundo parâmetro (nome da tarefa) e procurar a primeira tarefa
     // com esse nome e remover ela da lista (vetor de Structures "Tarefa"
-    } else if command == "del"{
+    } else if args.command == "del"{
 
-        let taskname = std::env::args().nth(2).expect("Nome não passado");
+        //let taskname = std::env::args().nth(2).expect("Nome não passado");
         for (index, tarefa) in tasklist.iter().enumerate() {
-            if tarefa.nome_da_tarefa == taskname {
+            if tarefa.nome_da_tarefa == args.taskname {
                 tasklist.remove(index);
-                println!("A tarefa {} foi removida da lista.", taskname);
+                println!("A tarefa {} foi removida da lista.", args.taskname);
                 break;
             }
         }
