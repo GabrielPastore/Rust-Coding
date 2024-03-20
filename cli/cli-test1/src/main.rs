@@ -66,7 +66,21 @@ fn main() {
         for tarefa in &mut tasklist {
             tarefa.done(&taskname);
         }
+
+    // Se for del, ele vai pegar o segundo parâmetro (nome da tarefa) e procurar a primeira tarefa
+    // com esse nome e remover ela da lista (vetor de Structures "Tarefa"
+    } else if command == "del"{
+
+        let taskname = std::env::args().nth(2).expect("Nome não passado");
+        for (index, tarefa) in tasklist.iter().enumerate() {
+            if tarefa.nome_da_tarefa == taskname {
+                tasklist.remove(index);
+                println!("A tarefa {} foi removida da lista.", taskname);
+                break;
+            }
+        }
     }
+    
     
     // Aqui ele vai transformar o vetor em um .JSON chamado "tarefas.JSON" e salvar na pasta src.
     // Caso esse arquivo já exista, ele vai sobreescrever, passando toda as adições, exclusões e
