@@ -1,5 +1,9 @@
-fn search_in_array(value: [i8; 5], target: i8) -> bool {
-
+fn search_in_array(array: [i8; 5], target: i8) -> bool {
+    for value in array.iter() {
+        if *value == target {
+            return true
+        }
+    } return false
 }
 
 #[cfg(test)]
