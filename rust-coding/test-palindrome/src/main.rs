@@ -9,24 +9,14 @@ fn compare_strings (input_string: &str) -> bool {
     let clean = Regex::new(r"[^A-Za-z]").unwrap();
     let clean_input_string = clean.replace_all(input_string, "").to_lowercase();
     
-    // Aqui criamos um Vetor de caracteres para poder inverter a string de input
-    let mut chars_vec: Vec<char> = Vec::new();
-    
-    // Neste loop for, invertemos a string de input tratada e adicionamos cada caractere nesse
-    // Vetor vazio
-    for char in clean_input_string.chars().rev() {
-        chars_vec.push(char);
-    }
-
-    // Uma variável é criada, que assume como valor o a String criada a partir do Vetor com os
-    // caracteres que foram adicionados no loop for acima
-    let reversed_str: String = chars_vec.into_iter().collect();
-    
-    // Caso a string de input (tratada) seja igual a sua versão invertida (caso de palíndromo), é
-    // retornado true, caso contrário, false
-    if clean_input_string == reversed_str {
+    // Comparando a string de input com sua versão invertida
+    if clean_input_string == clean_input_string.chars().rev().collect::<String>() {
+        
+        // Retornando verdadeiro caso a string seja igual ao seu inverso
         return true
     } else {
+
+        // Retornando falso caso não seja igual
         return false
     }
 }
