@@ -9,18 +9,10 @@ fn compare_strings (input_string: &str) -> bool {
     let clean = Regex::new(r"[^A-Za-z]").unwrap();
     let clean_input_string = clean.replace_all(input_string, "").to_lowercase();
     
-    // Comparando a string de input com sua versão invertida
-    if clean_input_string == clean_input_string.chars().rev().collect::<String>() {
-        
-        // Retornando verdadeiro caso a string seja igual ao seu inverso
-        return true
-    } else {
-
-        // Retornando falso caso não seja igual
-        return false
-    }
+    // Retornando a comparação entre a string de input tratada com sua versão invertida
+    return clean_input_string == clean_input_string.chars().rev().collect::<String>();
 }
-
+   
 // Sintaxe para poder realizar o teste
 #[cfg(test)]
 mod check_palindrome{
