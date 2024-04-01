@@ -27,7 +27,11 @@ fn search_pairs (array: [i8; 5], target: i8) -> i8 {
             target_repetitions += 1;
         }
     }
+    if target_repetition > 0 {
+        target_repetition = target_repetition / 2;
+    }    
     return target_repetitions;
+
 }
  
  
