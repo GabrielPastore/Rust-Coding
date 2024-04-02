@@ -14,10 +14,12 @@ fn search_pairs (array: [i8; 5], target: i8) -> i8 {
             target_repetitions += 1;
         }
     }
-    // O número de repetições é retornado
+    // Caso o número esteja na array, ele é dividido por 2 para retornar o número de pares
+    if target_repetitions > 0 {
+        target_repetitions = target_repetitions / 2;
+    }
     return target_repetitions;
 }
-
 // Sintaxe pra estrutura de teste
 #[cfg(test)]
 mod find_pairs_in_array {
@@ -33,6 +35,6 @@ mod find_pairs_in_array {
         
         // Aqui é comparado o número esperado de repetições da variável no array (2), com o número
         // real de repetições da variável
-        assert_eq!( 2, search_pairs(reference_array, search_attempt));
+        assert_eq!( 1, search_pairs(reference_array, search_attempt));
     }
 }

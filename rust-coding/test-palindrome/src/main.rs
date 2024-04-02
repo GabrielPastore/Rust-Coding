@@ -6,8 +6,8 @@ fn compare_strings (input_string: &str) -> bool {
     
     // Criando um objeto Regex, uma expressão regular para eliminar todos os caracteres inválidos
     // de uma string
-    let clean = Regex::new(r"[^A-Za-z]").unwrap();
-    let clean_input_string = clean.replace_all(input_string, "").to_lowercase();
+    let cleaner = Regex::new(r"[^A-Za-z]").unwrap();
+    let clean_input_string = cleaner.replace_all(input_string, "").to_lowercase();
     
     // Retornando a comparação entre a string de input tratada com sua versão invertida
     return clean_input_string == clean_input_string.chars().rev().collect::<String>();
